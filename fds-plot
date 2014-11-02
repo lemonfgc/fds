@@ -114,7 +114,7 @@ FDSindex <- function (fds) {
 # 删除第一项 “c”
 
 
-# need xxz,tt = ""
+# need xxz,tt = "" , maxnum for 1-2
 
 tt <- "2014-10-31"
 fds <- FDS(xxz)
@@ -154,9 +154,10 @@ p1 <- qplot(日期,value,data=fdsx1,geom="line") +
 
 
 
-# 1-2 p2
-
-fdsmax <- fds[fds $ date == max(fds $ date),]
+# 1-2 p2 maxnum
+maxnum <-
+fdsmax <- fds[fds $ date == max(fds $ date) &
+fds$num <= maxnum,]
 m1 <- mean( fdsmax$vvcum[ fdsmax$num < 65])
 m2 <- mean( fdsmax$vvcum[ fdsmax$num >= 65 & 
                             fdsmax$num < 85])
@@ -181,8 +182,8 @@ p2 <- qplot(num,vvcum,data = fdsmax) +
   facet_grid(.~color1,scales = "free_x",) + 
   theme(text = element_text(family = "微软雅黑")) +
   labs( x = paste("视频编号\n",paste(paste("数据截止",
-                                       max(fds $ date),sep=""),
-                                 paste(paste(",收集1-",max(fds $ num),
+                                       max(fdsmax $ date),sep=""),
+                                 paste(paste(",收集1-",max(fdsmax $ num),
                                              sep=""),"期视频",
                                        sep=""),sep=""),sep=""),
         y = "播放总量(百万)",
@@ -279,45 +280,13 @@ p42 <- p4 + geom_point(aes(x = num,y = vvcum,group = color2,
        x = "视频编号",y = "播放量")
 
 
-# 1-3 p130  125~129 
-zhan <- c(738503,90351,132708,58500,87629)
-ding <- c(4034,4929,1879,1819,2164)
-cai <-  c(62,85,44,35,172)
-pin <-  c(721,756,281,312,511)
-cang <- c(1099,1339,744,566,1404)
-num <-  c(125 : 129)
-vcum <- c()
-for( i in 1:length(num))vcum[i] <- fds$vvcum[fds$days == 7 &
-                                               fds$num == num[i]]
-
-ss1 <- data.frame(七日播量 = vcum + c(rep(0,4),55851),
-                  站外 = zhan,
-                  顶 = ding,
-                  踩 = cai,
-                  评论 = pin,
-                  收藏 = cang,
-                  num = num)
-
-ss2 <- melt(ss1,id.vars = "num")
-
-p130 <- ggplot(ss2,aes(x = num)) + 
-  theme(text = element_text(family="微软雅黑")) 
-
-p130 <- p130 + geom_line(aes(y=value)) + 
-  facet_grid(variable ~ .,scale = "free") +
-  labs(y = "",x = "",title="\"飞碟说\"一周视频互动对比") +
-  scale_x_continuous(breaks = num,
-                     labels=paste(num,c("假期","老干妈","前戏",
-                              "自拍神器","屌丝男神"),sep=""))
-  
-# p131  120 : 124
-
-zhan <- c(144865,81429,239370,91717,262514)
-ding <- c(3006,2748,3124,2349,3523)
-cai <-  c(74,108,82,51,117)
-pin <-  c(754,494,462,262,490)
-cang <- c(1049,863,1363,989,1758)
-num <-  c(120 : 124)
+# 1-3 p3 135 ~ 139
+zhan <- c(24809,53927,28320,40582,40791)
+ding <- c(2570,6590,2025,2584,2598)
+cai <-  c(94,149,47,87,241)
+pin <-  c(443,1737,323,385,786)
+cang <- c(610,1508,1080,985,1259)
+num <-  c(135 : 139)
 vcum <- c()
 for( i in 1:length(num))vcum[i] <- fds$vvcum[fds$days == 7 &
                                                fds$num == num[i]]
@@ -332,20 +301,21 @@ ss1 <- data.frame(七日播量 = vcum,
 
 ss2 <- melt(ss1,id.vars = "num")
 
-p131 <- ggplot(ss2,aes(x = num)) + 
+p3 <- ggplot(ss2,aes(x = num)) +
   theme(text = element_text(family="微软雅黑")) 
 
-p131 <- p131 + geom_line(aes(y=value)) + 
+p3 <- p3 + geom_line(aes(y=value)) +
   facet_grid(variable ~ .,scale = "free") +
   labs(y = "",x = "",title="\"飞碟说\"一周视频互动对比") +
   scale_x_continuous(breaks = num,
-                     labels = paste(num,c("防性侵","买真爱","割包皮",
-                                        "卫生巾","同居"),sep=""))
+                     labels=paste(num,c("黄牛党","快播","女性高潮",
+                              "内裤带你飞","渣男"),sep=""))
+  
 
   
 
 
 
-print("p1,p2,p130,p131,p41,p42,pp1,pp2,pp3")
+print("p1,p2,p3,p41,p42,pp1,pp2,pp3")
 
 
