@@ -98,7 +98,7 @@ FDSindex <- function (fds) {
   return(index)
 }
 
-# need xxz,tt = ""
+# need xxz,tt = ""， maxnum for n-2
 tt <- "2014-10-31"
 fds <- FDS(xxz)
 fds <- fds[-which( fds$date > as.Date(tt)),]
@@ -139,7 +139,7 @@ p1 <- qplot(日期,value,data=fdsx1,geom="line") +
 
 # 2-2 p2
 # NEED : maxnum
-maxnum <- 166
+
 fdsmax <- fds[fds $ date == max(fds $ date) &
               fds$num <= maxnum,]
 m1 <- mean( fdsmax$vvcum[ fdsmax$num < 51 ])
